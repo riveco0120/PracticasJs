@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>API COVID</title>
+</head>
+<body>
+    <h3>API COVID</h3>
+    <div class="container">
+        <div class="row">
+            <table class="table table-striped" id="tabla1"></table>
+        </div>
+    </div>
+
+    <label for="conutry">Paises</label>
+    <select name="paises" id="paises"></select>
+   
+
+    <script>
+        //Creando promesa 
+
+        fetch("https://api.covid19api.com/summary")
+        .then(response => response.json())
+        .then(datos=>{
+            let paises =[]
+            paises = datos.Countries;
+            let cad;
+            for (let pais of paises){
+                cad+=`<option value="${pais.Country}">${pais.Country}</option>`
+            }
+            document.getElementById("paises").innerHTML=cad
+        })
+
+        //Creando nodos
+        var boton = document.createElement("input");
+            boton.setAttribute("type","button")
+            boton.setAttribute("value","Buscar")
+
+        //Agregar nodos 
+        document.body.appendChild(boton);
+
+
+        //Creando funciones
+        function selecionarPais(){
+            var pais = document.getElementById("paises").value;
+            mostrarInformacion(pais);
+        }
+
+        function mostrarInformacion(pais){
+            fetch("https://api.covid19api.com/summary")
+        .then(response => response.json())
+        .then(datos=>{
+            let paises=[];
+            paises =datos.Countries;
+            let cad='<tr><th>Nombre</th><th>codigo pais</th><th>nuevos caso</th><th>muertes</th><th>recuperados</th></tr>';
+            paises.forEach(element => {
+                if(element.Country==pais){
+                    cad+=`<tr><td>${element.Country}</td>
+                        <td>${element.CountryCode}</td>
+                        <td>${element.NewConfirmed}</td>
+                        <td>${element.TotalDeaths}</td>
+                        <td>${element.TotalRecovered}</td>`
+                        
+
+                }
+                
+            });
+            
+                        document.getElementById("tabla1").innerHTML=cad
+        })
+        }
+
+        //Agregando eventos 
+        boton.addEventListener("click",selecionarPais);
+
+
+
+
+
+
+
+    </script>
+    
+</body>
+</html>
