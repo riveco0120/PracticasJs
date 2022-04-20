@@ -7,16 +7,37 @@
         //funciones 
 
         var agregarTarea = function(){
-          alert("Agregar tarea")  
+
+            var tarea = tareaInput.value,
+                nuevaTarea = document.createElement("li"),
+                enlace = document.createElement("a"),
+                contenido = document.createTextNode(tarea);
+                if(tarea==""){
+                    tareaInput.setAttribute("placeholder","Agrega una tarea validad");
+                    tareaInput.className="error";
+                    return false
+                }
+
+
+                //Agregamos el contenido al enlace
+                enlace.appendChild(contenido);
+                enlace.setAttribute("href","#");
+                //agregando enlace a la nueva tarea
+                nuevaTarea.appendChild(enlace);
+
+                //Agregamos nueva tarea a la lista;
+                lista.appendChild(nuevaTarea);
+
+
+
+
         };
 
         var comporbarInput=function(){
-            alert("comprobar input")  
         
         };
 
         var eliminarTarea=function(){
-            alert("eliminar tarea")  
         
         };
         
